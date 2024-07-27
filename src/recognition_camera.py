@@ -29,7 +29,7 @@ def load_model():
     :return:
     """
     model = CNN3()
-    model.load_weights('./models/cnn3_best_weights.h5')
+    model.load_weights(r'C:\Users\Acer\Desktop\ChiyokoUI\models\cnn3_best_weights.h5')
     return model
 
 
