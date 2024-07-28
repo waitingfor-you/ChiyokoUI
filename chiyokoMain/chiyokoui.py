@@ -6,7 +6,8 @@ import queue
 from collections import deque
 from PyQt5.QtCore import QTimer, Qt
 from PyQt5.QtGui import QPixmap, QPalette, QBrush, QImage
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QApplication, QLabel, QDesktopWidget
+from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QApplication, QLabel, QDesktopWidget, QTextEdit, \
+    QLineEdit, QPushButton
 from PyQt5 import QtGui
 
 from chiyokoMain.CameraSet import CameraSet
@@ -90,9 +91,32 @@ class Chiyoko(QWidget):
         leftbottom_layout.addWidget(self.timer_label)
 
         # 右下角 对话框
-        self.dialog_frame = QWidget()
+        self.dialog_frame = QWidget(self)
         self.dialog_frame.setFixedSize(1200, 360)
         self.dialog_frame.setStyleSheet('QWidget { border: 2px solid gray; }')
+
+        # 创建对话框布局
+        dialog_layout = QVBoxLayout()
+
+        # 聊天记录展示
+        self.chat_area = QTextEdit(self)
+        self.chat_area.setReadOnly(True)
+        dialog_layout.addWidget(self.chat_area)
+
+        # 信息输入布局
+        message_layout = QHBoxLayout()
+        self.talker_input = QLineEdit(self)
+        self.talker_input.setPlaceholderText('请输入...')
+        self.talker_input_button = QPushButton('发送', self)
+        self.talker_input_button.clicked.connect(self.send_message)
+        message_layout.addWidget(self.talker_input)
+        message_layout.addWidget(self.talker_input_button)
+
+        # 将信息输入布局添加到对话框布局中
+        dialog_layout.addLayout(message_layout)
+
+        # 将对话框布局设置为对话框部件的布局
+        self.dialog_frame.setLayout(dialog_layout)
 
         # 底部整体布局
         self.bottom_frame = QWidget()
@@ -166,6 +190,11 @@ class Chiyoko(QWidget):
             if pixmap.isNull():
                 print(f"Failed to load image from {emopath}")
             self.top_frame.setPixmap(pixmap)
+    def send_message(self):
+        message = self.talker_input.text()
+        if message:
+            self.chat_area.append(f"User: {message}")
+            self.talker_input.clear()
 
 
 
