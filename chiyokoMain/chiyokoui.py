@@ -61,6 +61,9 @@ class Chiyoko(QWidget):
         self.top_frame.setFixedSize(1500, 500)
         self.top_frame.setStyleSheet('QLabel { border: 2px solid gray; }')
         self.top_frame.setAlignment(Qt.AlignVCenter | Qt.AlignCenter)
+        pixmap = QPixmap(r'C:\Users\Acer\Desktop\ChiyokoUI\assets\selfemotion\normal.png')
+        pixmap = pixmap.scaled(1500, 500,Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        self.top_frame.setPixmap(pixmap)
 
 
 
@@ -159,7 +162,7 @@ class Chiyoko(QWidget):
             true_emotion = emodict[true_emotion]
             emopath = os.path.join(path, '{}.png'.format(true_emotion))
             pixmap = QPixmap(emopath)
-            pixmap.scaled(600, 400)
+            pixmap = pixmap.scaled(1500, 500,Qt.KeepAspectRatio, Qt.SmoothTransformation)
             if pixmap.isNull():
                 print(f"Failed to load image from {emopath}")
             self.top_frame.setPixmap(pixmap)
